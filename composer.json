@@ -1,0 +1,22 @@
+{
+    "name": "gimme/gimme",
+    "description": "A simple PHP command line tool to download files of a specified type from a specified location.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matt Sparks",
+            "email": "matt@sparkscoding.com"
+        }
+    ],
+    "require": {
+        "symfony/console": "^3.2",
+        "spatie/regex": "^1.1",
+        "thestringler/manipulator": "^1.3",
+        "curl/curl": "^1.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gimme\\": "src"
+        }
+    }
+}
