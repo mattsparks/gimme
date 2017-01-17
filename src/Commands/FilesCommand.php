@@ -129,7 +129,7 @@ class FilesCommand extends Command
 		/**
 		 * Find Files
 		 */
-		$this->fetcher->findFiles();
+		try { $this->fetcher->findFiles(); } catch (\Exception $e) { $this->printException($e); }
 
 		/**
 		 * Confirm Download
