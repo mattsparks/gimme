@@ -47,6 +47,11 @@ class FileFetcher {
 	protected $source;
 
 	/**
+	 * @var int
+	 */
+	protected $totalSize = 0;
+
+	/**
 	 * FileFetcher constructor
 	 *
 	 * @param $output
@@ -57,6 +62,21 @@ class FileFetcher {
 	}
 
 	/**
+	 * Convert Bytes to Readable Size
+	 *
+	 * @param $size
+	 * @return string
+	 * @link http://subinsb.com/convert-bytes-kb-mb-gb-php
+	 */
+	public function convertToReadableSize($size){
+		$base = log($size) / log(1024);
+		$suffix = array("", "KB", "MB", "GB", "TB");
+		$f_base = floor($base);
+
+		return (int) round(pow(1024, $base - floor($base)), 1) . $suffix[$f_base];
+	}
+
+	/**
 	 * Download Files
 	 *
 	 * @return void
@@ -64,7 +84,7 @@ class FileFetcher {
 	public function downloadFiles()
 	{
 		foreach($this->files as $file) {
-			$this->output->action('> Downloading: ' . $file->path());
+			$this->output->action('> Downloading: ' . $file->path() . ' ' . $file->size() . 'bytes');
 
 			$file->download();
 
@@ -77,12 +97,24 @@ class FileFetcher {
 	}
 
 	/**
+	 * Calculate Total Size
+	 *
+	 * @return void
+	 */
+	public function calculateTotalSize()
+	{
+		foreach($this->files as $file) {
+			$this->totalSize += $file->size();
+		}
+	}
+
+	/**
 	 * Find Files
 	 *
 	 * @throws \Exception
 	 * @return void
 	 */
-	public function findFiles()
+	public function findFiles($includeSize = false)
 	{
 		$this->output->info('Looking for files...');
 
@@ -102,7 +134,12 @@ class FileFetcher {
 			throw new \Exception('Sorry, didn\'t find anything. Maybe try another extension.');
 		}
 
-		$this->output->success($this->getTotal() . ' files found...');
+		$this->output->success($this->getTotal() . ' files found.');
+
+		if($includeSize) {
+			$this->calculateTotalSize();
+			$this->output->info('Total size: ~' . $this->convertToReadableSize($this->totalSize));
+		}
 	}
 
 	/**

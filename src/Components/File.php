@@ -12,6 +12,8 @@ class File {
 	 */
 	protected $path;
 
+	protected $size;
+
 	/**
 	 * File constructor
 	 *
@@ -59,6 +61,21 @@ class File {
 		if(!file_put_contents($destination . basename($this->path), $this->content)) {
 			throw new \Exception('Unable to save file.');
 		}
+	}
+
+	/**
+	 * Size
+	 *
+	 * @return int
+	 */
+	public function size()
+	{
+		if(!$this->size) {
+			$headers = get_headers($this->path, 1);
+			$this->size = isset($headers['Content-Length']) ? $headers['Content-Length'] : 0;
+		}
+
+		return (int) $this->size;
 	}
 
 }

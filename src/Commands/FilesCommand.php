@@ -2,9 +2,10 @@
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputDefinition;
-use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Gimme\Tools\FileFetcher;
@@ -42,12 +43,13 @@ class FilesCommand extends Command
 		$this->setName('files')
 			 ->setDescription('Download files with a specific extension, ie: pdf')
 			 ->setHelp('This command allows you to download files from a specific path.')
-		 	 ->setDefinition(
-			 	new InputDefinition([
-			 		new InputOption('from', 'f', InputOption::VALUE_REQUIRED),
-				    new InputOption('extension', 'e', InputOption::VALUE_REQUIRED),
-			 	])
-			 );
+		 	 ->addOption(
+		 	 	'include-size',
+			     null,
+			     InputOption::VALUE_OPTIONAL,
+			     'Include total combined size for all files, can be slow with a large number of files',
+			     false
+	         );
 	}
 
 	/**
@@ -129,7 +131,8 @@ class FilesCommand extends Command
 		/**
 		 * Find Files
 		 */
-		try { $this->fetcher->findFiles(); } catch (\Exception $e) { $this->printException($e); }
+		$includeSize = $input->getOption('include-size');
+		try { $this->fetcher->findFiles($includeSize); } catch (\Exception $e) { $this->printException($e); }
 
 		/**
 		 * Confirm Download
