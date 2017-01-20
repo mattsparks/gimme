@@ -4,8 +4,17 @@ use Spatie\Regex\Regex;
 
 class Location {
 
+	/**
+	 * @var string
+	 */
 	protected $path;
 
+	/**
+	 * Location constructor.
+	 *
+	 * @param $path
+	 * @throws \Exception
+	 */
 	public function __construct($path)
 	{
 		$this->path = $path;
@@ -15,11 +24,21 @@ class Location {
 		}
 	}
 
+	/**
+	 * Get
+	 *
+	 * @return string
+	 */
 	public function get()
 	{
 		return $this->path;
 	}
 
+	/**
+	 * isValid
+	 *
+	 * @return bool
+	 */
 	protected function isValid()
 	{
 		return (!empty($this->path) && Regex::match('/(https?:\/\/.+)/', $this->path)->hasMatch());

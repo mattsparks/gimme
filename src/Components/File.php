@@ -12,6 +12,9 @@ class File {
 	 */
 	protected $path;
 
+	/**
+	 * @var int
+	 */
 	protected $size;
 
 	/**

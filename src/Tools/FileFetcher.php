@@ -62,6 +62,18 @@ class FileFetcher {
 	}
 
 	/**
+	 * Calculate Total Size
+	 *
+	 * @return void
+	 */
+	public function calculateTotalSize()
+	{
+		foreach($this->files as $file) {
+			$this->totalSize += $file->size();
+		}
+	}
+
+	/**
 	 * Convert Bytes to Readable Size
 	 *
 	 * @param $size
@@ -97,15 +109,18 @@ class FileFetcher {
 	}
 
 	/**
-	 * Calculate Total Size
+	 * Fetch Source
 	 *
 	 * @return void
 	 */
-	public function calculateTotalSize()
+	public function fetchSource()
 	{
-		foreach($this->files as $file) {
-			$this->totalSize += $file->size();
-		}
+		$this->output->info('Fetching content...');
+
+		$this->source = new Source($this->location->get());
+		$this->source->fetch();
+
+		$this->response = new Response($this->source->get());
 	}
 
 	/**
@@ -140,21 +155,6 @@ class FileFetcher {
 			$this->calculateTotalSize();
 			$this->output->info('Total size: ~' . $this->convertToReadableSize($this->totalSize));
 		}
-	}
-
-	/**
-	 * Fetch Source
-	 *
-	 * @return void
-	 */
-	public function fetchSource()
-	{
-		$this->output->info('Fetching content...');
-
-		$this->source = new Source($this->location->get());
-		$this->source->fetch();
-
-		$this->response = new Response($this->source->get());
 	}
 
 	/**
