@@ -2,7 +2,7 @@
 
 ![Gimme](assets/example.gif "Gimme")
 
-A simple PHP command line tool to download files of a specified type from a specified location.
+A simple command line tool written in PHP to download files of a specified type from a specified location.
 
 ## Installation
 

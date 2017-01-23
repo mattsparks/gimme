@@ -1,6 +1,7 @@
 {
     "name": "gimme/gimme",
-    "description": "A simple PHP command line tool to download files of a specified type from a specified location.",
+    "description": "A simple command line tool written in PHP to download files of a specified type from a specified location.",
+    "keywords": ["Download", "Downloader", "CLI", "Command Line", "Tool", "Tools", "Mass Download"],
     "license": "MIT",
     "authors": [
         {
